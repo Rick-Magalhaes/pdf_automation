@@ -20,17 +20,21 @@ class HabiteSeParser:
         return None
 
     def _numero_documento(self):
-        match = re.search(r"(HABITE-SE|ALVAR[ÁA])\s*N[º°]?\s*([\d/]+)", self.text, re.IGNORECASE)
+        match = re.search(
+        r"(HABITE-SE|ALVAR[ÁA](?: DE CONSTRUÇÃO)?)\s+N[º°]?\s*([\d/]+)",
+        self.text,
+        re.IGNORECASE
+    )
         return match.group(2) if match else None
 
     def _data_conclusao(self):
-        match = re.search(r"foi conclu[ií]da em\s*(\d{2}/\d{2}/\d{4})", self.text, re.IGNORECASE)
+        match = re.search(r"(?:foi conclu[ií]da em|projeto aprovado em)\s*(\d{2}/\d{2}/\d{4})", self.text, re.IGNORECASE)
         return match.group(1) if match else None
 
     def _inscricao_cadastral(self):
         match = re.search(
-            r"Inscri[cç][aã]o Cadastral n[º°]?\s*([\d\.]+)",
-            self.text,
-            re.IGNORECASE
-        )
+        r"Inscri[cç][aã]o Cadastral\s*n[º°]?\s*([\d\.\-]+)",
+        self.text,
+        re.IGNORECASE
+    )
         return match.group(1) if match else None
